@@ -49,12 +49,27 @@ class Tests(unittest.TestCase):
         m = Maze(0, 0, num_rows, num_cols, 10, 10, seed=seed)
         
         all_visited = all(cell.visited for row in m._cells for cell in row)
-        self.assertTrue(all_visited)
+        self.assertFalse(all_visited)
 
         # Ensure that at least some walls have been broken
         walls_intact = all(cell.has_left_wall and cell.has_right_wall and cell.has_top_wall and cell.has_bottom_wall for row in m._cells for cell in row)
         self.assertFalse(walls_intact)
 
-        
+    def test_reset_cells_visited(self):
+        num_cols = 12
+        num_rows = 10
+        m = Maze(0, 0, num_rows, num_cols, 10, 10, seed=42)
+
+        # Manually set all cells as visited
+        for row in m._cells:
+            for cell in row:
+                cell.visited = True
+
+        # Call the method to reset visited property
+        m._reset_cells_visited()
+
+        # Check that all cells are now not visited
+        all_not_visited = all(not cell.visited for row in m._cells for cell in row)
+        self.assertTrue(all_not_visited)
 if __name__ == "__main__":
     unittest.main()
