@@ -11,28 +11,36 @@ class Cell:
         self._y1 = None
         self._y2 = None
         self._win = win
+        self.visited = False  # New attribute to track visited state
 
     def create_line(self, point1_x, point1_y, point2_x, point2_y, color):
         self._win._Window__canvas.create_line(point1_x, point1_y, point2_x, point2_y, fill=color, width=2)
         
-    def draw(self):
+    def draw(self, x1, y1, x2, y2):
         if self._win:
+            self._x1 = x1
+            self._x2 = x2
+            self._y1 = y1
+            self._y2 = y2
             if self.has_left_wall:
                 self.create_line(self._x1, self._y1, self._x1, self._y2, "black")
             else:
                 self.create_line(self._x1, self._y1, self._x1, self._y2, "white")
+            
             if self.has_right_wall:
-                self._win._Window__canvas.create_line(self._x2, self._y1, self._x2, self._y2, fill="black", width=2)
+                self.create_line(self._x2, self._y1, self._x2, self._y2, "black")
             else:
-                self._win._Window__canvas.create_line(self._x2, self._y1, self._x2, self._y2, fill="white", width=2)
+                self.create_line(self._x2, self._y1, self._x2, self._y2, "white")
+
             if self.has_top_wall:
-                self._win._Window__canvas.create_line(self._x1, self._y1, self._x2, self._y1, fill="black", width=2)
+                self.create_line(self._x1, self._y1, self._x2, self._y1, "black")
             else:
-                self._win._Window__canvas.create_line(self._x1, self._y1, self._x2, self._y1, fill="white", width=2)
+                self.create_line(self._x1, self._y1, self._x2, self._y1, "white")
+
             if self.has_bottom_wall:
-                self._win._Window__canvas.create_line(self._x1, self._y2, self._x2, self._y2, fill="black", width=2)
+                self.create_line(self._x1, self._y2, self._x2, self._y2, "black")
             else:
-                self._win._Window__canvas.create_line(self._x1, self._y2, self._x2, self._y2, fill="white", width=2)
+                self.create_line(self._x1, self._y2, self._x2, self._y2, "white")
 
     
 
